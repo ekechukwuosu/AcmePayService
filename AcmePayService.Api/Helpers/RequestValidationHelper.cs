@@ -31,7 +31,7 @@ namespace AcmePayService.API.Helpers
         {
             if (authorizeRequest == null || authorizeRequest.Amount <= 0 || string.IsNullOrEmpty(authorizeRequest.Currency) || 
                 string.IsNullOrEmpty(authorizeRequest.CardHolderNumber) || string.IsNullOrEmpty(authorizeRequest.HolderName) ||
-                authorizeRequest.ExpirationMonth <= 0 || authorizeRequest.ExpirationYear <= 0 || (authorizeRequest.CVV <= 0 && (authorizeRequest.CVV.ToString().Length != 3)) ||
+                authorizeRequest.ExpirationMonth <= 0 || authorizeRequest.ExpirationYear <= 0 || authorizeRequest.CVV <= 0 || authorizeRequest.CVV.ToString().Length != 3 ||
                 string.IsNullOrEmpty(authorizeRequest.OrderReference))
             {
                 return false;
@@ -45,13 +45,21 @@ namespace AcmePayService.API.Helpers
         /// <returns></returns>
         public static bool ValidateCaptureOrVoidPaymentRequest(CaptureAndVoidCommandRequest captureAndVoidCommandRequest )
         {
-            Guid parsedId;
-            var isIdValid = Guid.TryParse(captureAndVoidCommandRequest.Id.ToString(), out parsedId);
-            if (captureAndVoidCommandRequest == null || !isIdValid || string.IsNullOrEmpty(captureAndVoidCommandRequest.OrderReference))
+            if (captureAndVoidCommandRequest == null || !IsGuid(captureAndVoidCommandRequest.Id.ToString()) || string.IsNullOrEmpty(captureAndVoidCommandRequest.OrderReference))
             {
                 return false;
             }
             return true;
+        }
+        /// <summary>
+        /// This helper method validates if a string is a valid guid
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsGuid(string value)
+        {
+            Guid x;
+            return Guid.TryParse(value, out x);
         }
     }
 }

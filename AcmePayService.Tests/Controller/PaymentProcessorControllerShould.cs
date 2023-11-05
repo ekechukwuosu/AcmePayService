@@ -13,13 +13,13 @@ using Xunit;
 
 namespace AcmePayService.Tests.Controller
 {
-    public class AuthorizationControllerShould
+    public class PaymentProcessorControllerShould
     {
-        private readonly AuthorizationController _authorizationController;
+        private readonly PaymentProcessorController _authorizationController;
         private Mock<IMediator> _mockIMediator = new Mock<IMediator>();
-        public AuthorizationControllerShould() 
+        public PaymentProcessorControllerShould() 
         {
-            _authorizationController = new AuthorizationController(_mockIMediator.Object);
+            _authorizationController = new PaymentProcessorController(_mockIMediator.Object);
         }
         [Fact]
         public void Get_All_Transactions_Should_return_Ok_Success()

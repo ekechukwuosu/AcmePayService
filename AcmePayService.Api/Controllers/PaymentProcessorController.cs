@@ -13,14 +13,14 @@ namespace AcmePayService.API.Controllers
 {
     [Route("api/authorize")]
     [ApiController]
-    public class AuthorizationController : ControllerBase
+    public class PaymentProcessorController : ControllerBase
     {
         private readonly IMediator _mediator;
         /// <summary>
         /// AuthorizationController constructor
         /// </summary>
         /// <param name="mediator"></param>
-        public AuthorizationController(IMediator mediator)
+        public PaymentProcessorController(IMediator mediator)
         {
             _mediator = mediator;
         }
