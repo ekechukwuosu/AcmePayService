@@ -13,7 +13,7 @@ namespace AcmePayService.Infrastructure.DAL.Repository.Implementation
     {
         private readonly AppDBContext _dB;
         private readonly ILogger<PaymentRepository> _logger;
-        private static string errorMessage;
+        private string errorMessage;
         public PaymentRepository(AppDBContext dB, ILogger<PaymentRepository> logger)
         {
             _dB = dB;
