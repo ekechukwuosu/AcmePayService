@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmePayService.Api", "AcmePayService.Api\AcmePayService.Api.csproj", "{CB5EE8B9-ECDF-48AC-B85B-9C875459D0DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmePayService.Api", "AcmePayService.Api\AcmePayService.Api.csproj", "{CB5EE8B9-ECDF-48AC-B85B-9C875459D0DA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmePayService.Common", "AcmePayService.Common\AcmePayService.Common.csproj", "{0D64D196-D28C-491A-AC65-1D0B7169DFB7}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmePayService.Infrastructure", "AcmePayService.Infrastructure\AcmePayService.Infrastructure.csproj", "{902EDB0E-CE87-4C77-B578-7DCF94A741AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmePayService.Tests", "AcmePayService.Tests\AcmePayService.Tests.csproj", "{AD00A0CA-DA1E-4F97-A2CF-1199EAA96052}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmePayService.Services", "AcmePayService.Services\AcmePayService.Services.csproj", "{129F3618-2951-44B7-B0A9-F4E1EC242DE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{AD00A0CA-DA1E-4F97-A2CF-1199EAA96052}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD00A0CA-DA1E-4F97-A2CF-1199EAA96052}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD00A0CA-DA1E-4F97-A2CF-1199EAA96052}.Release|Any CPU.Build.0 = Release|Any CPU
+		{129F3618-2951-44B7-B0A9-F4E1EC242DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{129F3618-2951-44B7-B0A9-F4E1EC242DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{129F3618-2951-44B7-B0A9-F4E1EC242DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{129F3618-2951-44B7-B0A9-F4E1EC242DE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

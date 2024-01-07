@@ -1,6 +1,7 @@
-﻿using AcmePayService.Domain.Command.Requests;
-using AcmePayService.Domain.Queries.Requests;
-using AcmePayService.Infrastructure.Data.Models;
+﻿using AcmePayService.Domain.Entities;
+using AcmePayService.Services.Command.AuthorizePayment;
+using AcmePayService.Services.Command.Requests;
+using AcmePayService.Services.Queries.Transaction;
 
 namespace AcmePayService.Tests.Utilities.TestParameters
 {

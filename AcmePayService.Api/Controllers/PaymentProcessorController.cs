@@ -1,9 +1,10 @@
 ﻿using AcmePayService.API.Helpers;
-using AcmePayService.Common.Static;
-using AcmePayService.Domain.Command;
-using AcmePayService.Domain.Command.Requests;
-using AcmePayService.Domain.Queries;
-using AcmePayService.Domain.Queries.Requests;
+using AcmePayService.Domain.Exceptions;
+using AcmePayService.Services.Command.AuthorizePayment;
+using AcmePayService.Services.Command.CapturePayment;
+using AcmePayService.Services.Command.Requests;
+using AcmePayService.Services.Command.VoidPayment;
+using AcmePayService.Services.Queries.Transaction;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,48 +33,35 @@ namespace AcmePayService.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllTransactions([FromQuery] TransactionRequest transactionRequest)
         {   
             TransactionQuery transactionQuery = new(transactionRequest);
             var response = await _mediator.Send(transactionQuery);
-            if (ResponseValidationHelper.IsBadRequest(response.ResponseMessage))
-            {
-                return BadRequest(response.ResponseMessage);
-            }
-            if (ResponseValidationHelper.IsInternalServerError(response.ResponseMessage))
-            {
-                return Problem(response.ResponseMessage);
-            }
-            return Ok(response.Data);
+            return Ok(response);
         }
         /// <summary>
         /// This endpoint method is for inserting authorized payment
         /// </summary>
         /// <param name="authorizeRequest"></param>
         /// <returns></returns>
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpPost]
         public async Task<IActionResult> AuthorizePayment([FromBody] AuthorizeRequest authorizeRequest)
         {
             if (!RequestValidationHelper.ValidateAuthourizePaymentRequest(authorizeRequest))
             {
-                return BadRequest(ResponseMessages.InvalidInputKey);
+                throw new InputValidationException();
             }
             AuthorizePaymentCommand paymentCommand = new(authorizeRequest);
 
             var response = await _mediator.Send(paymentCommand);
-            if(ResponseValidationHelper.IsBadRequest(response.ResponseMessage)) 
-            {
-                return BadRequest(response.ResponseMessage);
-            }
-            if (ResponseValidationHelper.IsInternalServerError(response.ResponseMessage))
-            {
-                return Problem(response.ResponseMessage);
-            }
-            return Ok(response.Data);
+            
+            return Ok(response);
         }
         /// <summary>
         /// This endpoint method is for capturing payments
@@ -81,30 +69,22 @@ namespace AcmePayService.API.Controllers
         /// <param name="id"></param>
         /// <param name="captureAndVoidInputRequest"></param>
         /// <returns></returns>
+        [HttpPost("{id}/capture")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpPost("{id}/capture")]
         public async Task<IActionResult>CapturePayment([FromRoute]Guid id,[FromBody] CaptureAndVoidInputRequest captureAndVoidInputRequest)
         {
             CaptureAndVoidCommandRequest request = new() { Id = id, OrderReference = captureAndVoidInputRequest.OrderReference };
             if (!RequestValidationHelper.ValidateCaptureOrVoidPaymentRequest(request))
             {
-                return BadRequest(ResponseMessages.InvalidInputKey);
+                throw new InputValidationException();
             }
 
             CapturePaymentCommand capturePaymentCommand = new (request);
             var response = await _mediator.Send(capturePaymentCommand);
-
-            if (ResponseValidationHelper.IsBadRequest(response.ResponseMessage))
-            {
-                return BadRequest(response.ResponseMessage);
-            }
-            if (ResponseValidationHelper.IsInternalServerError(response.ResponseMessage))
-            {
-                return Problem(response.ResponseMessage);
-            }
-            return Ok(response.Data);
+            return Ok(response);
         }
         /// <summary>
         /// This endpoint method is for voiding payments
@@ -112,30 +92,22 @@ namespace AcmePayService.API.Controllers
         /// <param name="id"></param>
         /// <param name="captureAndVoidInputRequest"></param>
         /// <returns></returns>
+        [HttpPost("{id}/voids")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpPost("{id}/voids")]
         public async Task<IActionResult> VoidPayment([FromRoute] Guid id, [FromBody] CaptureAndVoidInputRequest captureAndVoidInputRequest)
         {
             CaptureAndVoidCommandRequest request = new() { Id = id, OrderReference = captureAndVoidInputRequest.OrderReference };
             if (!RequestValidationHelper.ValidateCaptureOrVoidPaymentRequest(request))
             {
-                return BadRequest(ResponseMessages.InvalidInputKey);
+                throw new InputValidationException();
             }
 
             VoidPaymentCommand voidPaymentCommand = new(request);
             var response = await _mediator.Send(voidPaymentCommand);
-
-            if (ResponseValidationHelper.IsBadRequest(response.ResponseMessage))
-            {
-                return BadRequest(response.ResponseMessage);
-            }
-            if (ResponseValidationHelper.IsInternalServerError(response.ResponseMessage))
-            {
-                return Problem(response.ResponseMessage);
-            }
-            return Ok(response.Data);
+            return Ok(response);
         }
       
     }

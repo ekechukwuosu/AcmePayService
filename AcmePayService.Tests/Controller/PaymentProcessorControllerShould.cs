@@ -1,10 +1,12 @@
 ﻿using AcmePayService.API.Controllers;
-using AcmePayService.Common.Helper;
-using AcmePayService.Domain.Command;
-using AcmePayService.Domain.Command.Requests;
-using AcmePayService.Domain.Command.Responses;
-using AcmePayService.Domain.Queries;
-using AcmePayService.Domain.Queries.Responses;
+using AcmePayService.Common;
+using AcmePayService.Domain.DTO;
+using AcmePayService.Domain.Models;
+using AcmePayService.Services.Command.AuthorizePayment;
+using AcmePayService.Services.Command.CapturePayment;
+using AcmePayService.Services.Command.Requests;
+using AcmePayService.Services.Command.VoidPayment;
+using AcmePayService.Services.Queries.Transaction;
 using AcmePayService.Tests.Utilities.TestParameters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +28,7 @@ namespace AcmePayService.Tests.Controller
         {
             var request = TestRequestParameters.GetSampleTransactionRequest();
 
-            _mockIMediator.Setup(s => s.Send(It.IsAny<TransactionQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ServiceResponse<TransactionResponse>());
+            _mockIMediator.Setup(s => s.Send(It.IsAny<TransactionQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new TransactionResponse(new PagedList<PaymentReportDTO>(new List<PaymentReportDTO>(),0,0,0)));
 
             var result = _authorizationController.GetAllTransactions(request);
 
@@ -38,7 +40,7 @@ namespace AcmePayService.Tests.Controller
         {
             var request = TestRequestParameters.SampleAuthorizePaymentRequest();
 
-            _mockIMediator.Setup(s => s.Send(It.IsAny<AuthorizePaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ServiceResponse<PaymentResponse>());
+            _mockIMediator.Setup(s => s.Send(It.IsAny<AuthorizePaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new PaymentDTO());
 
             var result = _authorizationController.AuthorizePayment(request);
 
@@ -50,7 +52,7 @@ namespace AcmePayService.Tests.Controller
         {
             var request = new AuthorizeRequest();
 
-            _mockIMediator.Setup(s => s.Send(It.IsAny<AuthorizePaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ServiceResponse<PaymentResponse>());
+            _mockIMediator.Setup(s => s.Send(It.IsAny<AuthorizePaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new PaymentDTO());
 
             var result = _authorizationController.AuthorizePayment(request);
 
@@ -63,7 +65,7 @@ namespace AcmePayService.Tests.Controller
             var request = TestRequestParameters.SampleCapturePaymentRequest();
             var id = TestRequestParameters.SampleExistingID();
 
-            _mockIMediator.Setup(s => s.Send(It.IsAny<CapturePaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ServiceResponse<PaymentResponse>());
+            _mockIMediator.Setup(s => s.Send(It.IsAny<CapturePaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new PaymentDTO());
 
             var result = _authorizationController.CapturePayment(id, request);
 
@@ -75,7 +77,7 @@ namespace AcmePayService.Tests.Controller
         {
             var request = new CaptureAndVoidInputRequest();
 
-            _mockIMediator.Setup(s => s.Send(It.IsAny<CapturePaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ServiceResponse<PaymentResponse>());
+            _mockIMediator.Setup(s => s.Send(It.IsAny<CapturePaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new PaymentDTO());
 
             var result = _authorizationController.CapturePayment(new Guid(), request);
 
@@ -88,7 +90,7 @@ namespace AcmePayService.Tests.Controller
             var request = TestRequestParameters.SampleCapturePaymentRequest();
             var id = TestRequestParameters.SampleExistingID();
 
-            _mockIMediator.Setup(s => s.Send(It.IsAny<VoidPaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ServiceResponse<PaymentResponse>());
+            _mockIMediator.Setup(s => s.Send(It.IsAny<VoidPaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new PaymentDTO());
 
             var result = _authorizationController.VoidPayment(id, request);
 
@@ -100,7 +102,7 @@ namespace AcmePayService.Tests.Controller
         {
             var request = new CaptureAndVoidInputRequest();
 
-            _mockIMediator.Setup(s => s.Send(It.IsAny<VoidPaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ServiceResponse<PaymentResponse>());
+            _mockIMediator.Setup(s => s.Send(It.IsAny<VoidPaymentCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new PaymentDTO());
 
             var result = _authorizationController.VoidPayment(new Guid(), request);
 

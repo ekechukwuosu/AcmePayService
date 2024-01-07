@@ -27,6 +27,7 @@
     <ProjectReference Include="..\AcmePayService.API\AcmePayService.API.csproj" />
     <ProjectReference Include="..\AcmePayService.Domain\AcmePayService.Domain.csproj" />
     <ProjectReference Include="..\AcmePayService.Infrastructure\AcmePayService.Infrastructure.csproj" />
+    <ProjectReference Include="..\AcmePayService.Services\AcmePayService.Services.csproj" />
   </ItemGroup>
 
 </Project>

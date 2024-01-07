@@ -1,13 +1,14 @@
+using AcmePayService.Api.Middleware;
+using AcmePayService.Domain;
+using AcmePayService.Domain.Mapping;
+using AcmePayService.Domain.RepositoryInterfaces;
+using AcmePayService.Infrastructure.DB;
+using AcmePayService.Infrastructure.RepositoryImplementation;
+using AcmePayService.Services.Mapping;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-using System;
-using AcmePayService.Infrastructure.Data.DB;
-using Microsoft.EntityFrameworkCore;
-using AcmePayService.Domain;
-using AcmePayService.Infrastructure.DAL.Repository.Implementation;
-using AcmePayService.Infrastructure.DAL.Repository.Interfaces;
-using AutoMapper;
-using AcmePayService.Domain.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ builder.Services.AddSingleton(provider => new MapperConfiguration(cfg =>
 {
     cfg.AddProfile(new AuthourizedPaymentRequestProfile());
     cfg.AddProfile(new CaptureAndVoidRequestProfile());
+    cfg.AddProfile(new PaymentResponseProfile());
 }).CreateMapper());
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen(options =>
@@ -45,6 +47,7 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlCommentsFullPath);
     options.CustomSchemaIds(type => type.FullName.Replace("+", "_"));
 });
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 var app = builder.Build();
 
 
@@ -54,6 +57,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

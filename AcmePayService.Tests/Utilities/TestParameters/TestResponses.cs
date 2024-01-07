@@ -1,29 +1,30 @@
 ﻿using AcmePayService.Common.Helper;
-using AcmePayService.Infrastructure.Data.Models;
+using AcmePayService.Domain.Entities;
+using AcmePayService.Domain.Models;
 
 namespace AcmePayService.Tests.Utilities.TestParameters
 {
     public class TestResponses
     {
-        public static ServiceResponse<List<PaymentReport>> GetSamplePaymentList()
+        public static ServiceResponse<List<PaymentReportDTO>> GetSamplePaymentList()
         {
-            var list =  new List<PaymentReport>()
+            var list =  new List<PaymentReportDTO>()
             {
-                new PaymentReport(5000,
+                new PaymentReportDTO(5000,
                     "USD",
                     "336598********4587",
                     "Peter Obi",
                     new Guid("6804C5AF-A163-4836-BDFA-8F0BC6295911"),
                     "Authorized"),
                
-                new PaymentReport(6500,
+                new PaymentReportDTO(6500,
                     "GBP",
                     "962548********3215",
                     "Chinargorom Osu",
                     new Guid("D4D44D28-CFC7-496D-A072-3B46CBE8AA44"),
                     "Captured")
             };
-            return new ServiceResponse<List<PaymentReport>>() { Data = list, ResponseMessage = string.Empty };
+            return new ServiceResponse<List<PaymentReportDTO>>() { Data = list, ResponseMessage = string.Empty };
         }
         public static ServiceResponse<Payment> GetSampleAuthorizedPaymentResponse_Repository()
         {

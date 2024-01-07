@@ -1,6 +1,6 @@
-﻿using AcmePayService.Domain.Command.Requests;
-using AcmePayService.Domain.Queries.Requests;
-using System.Transactions;
+﻿using AcmePayService.Services.Command.AuthorizePayment;
+using AcmePayService.Services.Command.Requests;
+using AcmePayService.Services.Queries.Transaction;
 
 namespace AcmePayService.API.Helpers
 {

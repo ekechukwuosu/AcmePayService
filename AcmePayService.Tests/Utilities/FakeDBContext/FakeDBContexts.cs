@@ -1,5 +1,5 @@
-﻿using AcmePayService.Infrastructure.Data.DB;
-using AcmePayService.Infrastructure.Data.Models;
+﻿using AcmePayService.Domain.Entities;
+using AcmePayService.Infrastructure.DB;
 using Microsoft.EntityFrameworkCore;
 
 namespace AcmePayService.Tests.Utilities.FakeDBContext
