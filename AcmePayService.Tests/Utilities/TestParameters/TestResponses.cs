@@ -1,4 +1,5 @@
-﻿using AcmePayService.Common.Helper;
+﻿using AcmePayService.Common;
+using AcmePayService.Common.Helper;
 using AcmePayService.Domain.Entities;
 using AcmePayService.Domain.Models;
 
@@ -6,7 +7,7 @@ namespace AcmePayService.Tests.Utilities.TestParameters
 {
     public class TestResponses
     {
-        public static ServiceResponse<List<PaymentReportDTO>> GetSamplePaymentList()
+        public static PagedList<PaymentReportDTO> GetSamplePaymentList()
         {
             var list =  new List<PaymentReportDTO>()
             {
@@ -24,9 +25,9 @@ namespace AcmePayService.Tests.Utilities.TestParameters
                     new Guid("D4D44D28-CFC7-496D-A072-3B46CBE8AA44"),
                     "Captured")
             };
-            return new ServiceResponse<List<PaymentReportDTO>>() { Data = list, ResponseMessage = string.Empty };
+            return PagedList<PaymentReportDTO>.ToPagedList(list, 1, 2); ;
         }
-        public static ServiceResponse<Payment> GetSampleAuthorizedPaymentResponse_Repository()
+        public static Payment GetSampleAuthorizedPaymentResponse_Repository()
         {
             var response = new Payment()
             {
@@ -45,9 +46,9 @@ namespace AcmePayService.Tests.Utilities.TestParameters
                 DateUpdated = new DateTime(2023, 07, 10),
 
             };
-            return new ServiceResponse<Payment>() { Data = response, ResponseMessage = string.Empty };            
+            return response;            
         }
-        public static ServiceResponse<Payment> GetSampleCapturedPaymentResponse_Repository()
+        public static Payment GetSampleCapturedPaymentResponse_Repository()
         {
             var response = new Payment()
             {
@@ -66,9 +67,9 @@ namespace AcmePayService.Tests.Utilities.TestParameters
                 DateUpdated = new DateTime(2023, 08, 09),
 
             };
-            return new ServiceResponse<Payment>() { Data = response, ResponseMessage = string.Empty };
+            return response;
         }
-        public static ServiceResponse<Payment> GetSampleVoidedPaymentResponse_Repository()
+        public static Payment GetSampleVoidedPaymentResponse_Repository()
         {
             var response = new Payment()
             {
@@ -87,7 +88,7 @@ namespace AcmePayService.Tests.Utilities.TestParameters
                 DateUpdated = new DateTime(2023, 09, 12),
 
             };
-            return new ServiceResponse<Payment>() { Data = response, ResponseMessage = string.Empty };
+            return response;
         }
     }
 }

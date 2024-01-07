@@ -1,5 +1,4 @@
 ﻿using AcmePayService.Common;
-using AcmePayService.Common.Helper;
 using AcmePayService.Domain.Entities;
 using AcmePayService.Domain.Enums;
 using AcmePayService.Domain.Models;
@@ -32,7 +31,7 @@ namespace AcmePayService.Tests.Infrastructure
             var actualResponse = JsonConvert.SerializeObject(result);
 
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<ServiceResponse<PagedList<PaymentReportDTO>>>(result);
+            Assert.IsAssignableFrom<PagedList<PaymentReportDTO>>(result);
             Assert.True(expectedResponse.Equals(actualResponse));
         }
         [Fact]
@@ -42,7 +41,7 @@ namespace AcmePayService.Tests.Infrastructure
             var result = await _paymentRepository.AddPayment(PaymentStatus.Authorized, parameters);;
 
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<ServiceResponse<Payment>>(result);
+            Assert.IsAssignableFrom<Payment>(result);
             Assert.True(result.Status.Equals("Authorized"));
         }
 
@@ -53,7 +52,7 @@ namespace AcmePayService.Tests.Infrastructure
             var result = await _paymentRepository.UpdatePayment(PaymentStatus.Captured, parameters); ;
 
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<ServiceResponse<Payment>>(result);
+            Assert.IsAssignableFrom<Payment>(result);
             Assert.True(result.Status.Equals("Captured"));
         }
         [Fact]
@@ -63,7 +62,7 @@ namespace AcmePayService.Tests.Infrastructure
             var result = await _paymentRepository.UpdatePayment(PaymentStatus.Voided, parameters); ;
 
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<ServiceResponse<Payment>>(result);
+            Assert.IsAssignableFrom<Payment>(result);
             Assert.True(result.Status.Equals("Voided"));
         }        
     }

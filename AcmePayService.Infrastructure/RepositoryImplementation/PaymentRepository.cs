@@ -33,7 +33,7 @@ namespace AcmePayService.Infrastructure.RepositoryImplementation
                             .Select(b => new PaymentReportDTO(b.Amount, b.Currency, b.CardHolderNumber, b.HolderName, b.Id, b.Status))
                             .Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();            
 
-            return  PagedList<PaymentReportDTO>.ToPagedList(payments, pageNumber, pageSize);
+            return PagedList<PaymentReportDTO>.ToPagedList(payments, pageNumber, pageSize);
         }
         /// <summary>
         /// This is a repository method for authorizing a payment

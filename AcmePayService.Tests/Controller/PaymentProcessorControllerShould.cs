@@ -1,5 +1,6 @@
 ﻿using AcmePayService.API.Controllers;
 using AcmePayService.Common;
+using AcmePayService.Common.Static;
 using AcmePayService.Domain.DTO;
 using AcmePayService.Domain.Models;
 using AcmePayService.Services.Command.AuthorizePayment;
@@ -48,7 +49,7 @@ namespace AcmePayService.Tests.Controller
             Assert.IsAssignableFrom<OkObjectResult>(result.Result);
         }
         [Fact]
-        public void Authorize_Payment_Should_return_bad_request()
+        public void Authorize_Payment_Should_return_invalid_input()
         {
             var request = new AuthorizeRequest();
 
@@ -57,7 +58,7 @@ namespace AcmePayService.Tests.Controller
             var result = _authorizationController.AuthorizePayment(request);
 
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<BadRequestObjectResult>(result.Result);
+            Assert.Equal(result.Exception.InnerException.Message, ResponseMessages.InvalidInputKey);
         }
         [Fact]
         public void Capture_Payment_Should_return_Ok_Success()
@@ -73,7 +74,7 @@ namespace AcmePayService.Tests.Controller
             Assert.IsAssignableFrom<OkObjectResult>(result.Result);
         }
         [Fact]
-        public void Capture_Payment_Should_return_bad_request()
+        public void Capture_Payment_Should_return_invalid_input()
         {
             var request = new CaptureAndVoidInputRequest();
 
@@ -82,7 +83,7 @@ namespace AcmePayService.Tests.Controller
             var result = _authorizationController.CapturePayment(new Guid(), request);
 
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<BadRequestObjectResult>(result.Result);
+            Assert.Equal(result.Exception.InnerException.Message, ResponseMessages.InvalidInputKey);
         }
         [Fact]
         public void Void_Payment_Should_return_Ok_Success()
@@ -98,7 +99,7 @@ namespace AcmePayService.Tests.Controller
             Assert.IsAssignableFrom<OkObjectResult>(result.Result);
         }
         [Fact]
-        public void Void_Payment_Should_return_bad_request()
+        public void Void_Payment_Should_return_Invalid_Input()
         {
             var request = new CaptureAndVoidInputRequest();
 
@@ -107,7 +108,7 @@ namespace AcmePayService.Tests.Controller
             var result = _authorizationController.VoidPayment(new Guid(), request);
 
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<BadRequestObjectResult>(result.Result);
+            Assert.Equal(result.Exception.InnerException.Message, ResponseMessages.InvalidInputKey);
         }
     }
 }
